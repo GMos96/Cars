@@ -1,7 +1,9 @@
 package com.cgmosele.vehicleServiceLog.ui;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,10 +19,33 @@ public class VehicleServiceLogUI {
 	}
 	
 	public void save() {
-
-		// do later
-		// www.tutorialspoint.com/java/java_serialization.htm
-		
+	      try {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("C:\\VehicleServiceLog\\cars.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject( cars );
+	         out.close();
+	         fileOut.close();
+	      } catch(IOException i) {
+	          i.printStackTrace();
+	      }
+	}
+	
+	public void read() {
+	      try {
+	         FileInputStream fileIn = new FileInputStream( "C:\\VehicleServiceLog\\cars.ser" );
+	         ObjectInputStream in = new ObjectInputStream( fileIn );
+	         cars = ( Car[] ) in.readObject();
+	         in.close();
+	         fileIn.close();
+	      } catch(IOException i) {
+	         i.printStackTrace();
+	         return;
+	      } catch(ClassNotFoundException c) {
+	         System.out.println("Vehicle Array Not Found");
+	         c.printStackTrace();
+	         return;
+	      }
 	}
 	
 	
