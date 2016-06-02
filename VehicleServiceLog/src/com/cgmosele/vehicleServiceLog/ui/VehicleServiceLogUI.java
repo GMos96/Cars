@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.cgmosele.vehicleServiceLog.error.CarNotFoundException;
 import com.cgmosele.vehicleServiceLog.util.Car;
 
 public class VehicleServiceLogUI {
@@ -15,7 +16,7 @@ public class VehicleServiceLogUI {
 	Car[] cars = new Car[ 25 ];
 	
 	public VehicleServiceLogUI() {
-		
+		read();
 	}
 	
 	public void save() {
@@ -31,7 +32,7 @@ public class VehicleServiceLogUI {
 	      }
 	}
 	
-	public void read() {
+	private void read() {
 	      try {
 	         FileInputStream fileIn = new FileInputStream( "C:\\VehicleServiceLog\\cars.ser" );
 	         ObjectInputStream in = new ObjectInputStream( fileIn );
@@ -42,8 +43,7 @@ public class VehicleServiceLogUI {
 	         i.printStackTrace();
 	         return;
 	      } catch(ClassNotFoundException c) {
-	         System.out.println("Vehicle Array Not Found");
-	         c.printStackTrace();
+	         System.out.println("Vehicle Array Not Found. Starting Blank.");
 	         return;
 	      }
 	}
@@ -65,14 +65,18 @@ public class VehicleServiceLogUI {
 		c.getOilLog().setLastChange( new Date( Calendar.YEAR + 1900, Calendar.MONTH + 1, Calendar.DATE ) );
 	}
 	
-	public Car find( String make, String model ) {
+	public Car find( String make, String model ) throws CarNotFoundException {
 		for ( int i = 0; i < cars.length; i++ ) {
 			if ( make.equals( cars[ i ].getMake() ) )
 				if ( model.equals( cars[ i ].getModel() ) )
 					return cars[ i ];
 		}
 		
-		return cars[ i ];
+		throw new CarNotFoundException();
+	}
+	
+	public Car[] getCars() {
+		return cars;
 	}
 	
 	
