@@ -65,5 +65,15 @@ public class VehicleServiceLogUI {
 		c.getOilLog().setLastChange( new Date( Calendar.YEAR + 1900, Calendar.MONTH + 1, Calendar.DATE ) );
 	}
 	
+	public Car find( String make, String model ) {
+		for ( int i = 0; i < cars.length; i++ ) {
+			if ( make.equals( cars[ i ].getMake() ) )
+				if ( model.equals( cars[ i ].getModel() ) )
+					return cars[ i ];
+		}
+		
+		return cars[ i ];
+	}
+	
 	
 }
