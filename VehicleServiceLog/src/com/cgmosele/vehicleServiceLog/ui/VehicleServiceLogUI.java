@@ -13,7 +13,8 @@ import com.cgmosele.vehicleServiceLog.util.Car;
 
 public class VehicleServiceLogUI {
 
-	Car[] cars = new Car[ 25 ];
+	Car[] cars = new Car[ 10 ];
+	String[][] carTable = new String[ 10 ][ 4 ];
 	
 	public VehicleServiceLogUI() {
 		read();
@@ -46,6 +47,15 @@ public class VehicleServiceLogUI {
 	         System.out.println("Vehicle Array Not Found. Starting Blank.");
 	         return;
 	      }
+	      
+	      String[] names = new String[ 4 ];
+	      for ( int i = 0; i < cars.length; i++ ) {
+	    	  names = cars[ i ].toStringArray();
+	    	  for ( int j = 0; i < 4; i++ ) {
+	    		  carTable[ j ][ i ] = names[ i ];
+	    	  }
+	      }
+	      
 	}
 	
 	
@@ -77,6 +87,10 @@ public class VehicleServiceLogUI {
 	
 	public Car[] getCars() {
 		return cars;
+	}
+	
+	public String[][] getTable() {
+		return carTable;
 	}
 	
 	
