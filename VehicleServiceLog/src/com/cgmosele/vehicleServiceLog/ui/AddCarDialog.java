@@ -2,6 +2,8 @@ package com.cgmosele.vehicleServiceLog.ui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -10,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import com.cgmosele.vehicleServiceLog.util.Car;
+import com.cgmosele.vehicleServiceLog.util.OilLog;
 
 public class AddCarDialog extends JDialog {
 
@@ -34,6 +39,8 @@ public class AddCarDialog extends JDialog {
 	
 	private JRadioButton standard = new JRadioButton( "Standard" );
 	private JRadioButton synthetic = new JRadioButton( "Synthetic" );
+	
+	private Car car;
 	
 
 	public AddCarDialog( JFrame parent, boolean modal ) {
@@ -67,8 +74,54 @@ public class AddCarDialog extends JDialog {
 		this.add( buttons, BorderLayout.SOUTH);
 		
 		buttons.add( ok );
-		buttons.add( cancel );
+		ok.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//assuming correct for now
+				int year = Integer.parseInt( AddCarDialog.this.year.getText() );
+				String make = AddCarDialog.this.make.getText();
+				String model = AddCarDialog.this.model.getText();
+				int mileage = Integer.parseInt( AddCarDialog.this.mileage.getText() );
+				
+				char oilType;
+				if ( standard.isSelected() ) {
+					oilType = 'S';
+				} else {
+					oilType = 'Y';
+				}
+				
+				String specialCodes = "";
+				if ( tires.isSelected() ) {
+					specialCodes = "R";
+				}
+				
+				int capacity = Integer.parseInt( cap.getText() );
+				String brand = AddCarDialog.this.brand.getText();
+				String type = AddCarDialog.this.type.getText();
+				
+				OilLog log = new OilLog(capacity, brand, type);
+				
+				car = new Car( year, make, model, mileage, oilType, specialCodes );
+				car.setOilLog( log );
+				
+				setVisible( false );
+			}
+		} );
 		
+		buttons.add( cancel );
+		cancel.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		
+	}
+	
+	public Car onReturn() {
+		return car;
 	}
 
 }

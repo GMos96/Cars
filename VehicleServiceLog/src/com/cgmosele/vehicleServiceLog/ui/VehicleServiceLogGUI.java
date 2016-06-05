@@ -35,7 +35,7 @@ public class VehicleServiceLogGUI extends JFrame {
 	
 	private VehicleServiceLogUI garage;
 	private Car[] cars;
-
+	
 	private String[][] carTab;
 	
 	public VehicleServiceLogGUI() {
@@ -105,7 +105,12 @@ public class VehicleServiceLogGUI extends JFrame {
 			@Override
 			public void actionPerformed( ActionEvent e ) {
 				AddCarDialog ad = new AddCarDialog( new JFrame(), true );
-				
+				Car c = ad.onReturn();
+				cars[ getLength() ] = c;
+				carTab[ getLength() ][ 0 ] = c.getYear() + " " + c.getMake() + " " + c.getModel();
+				carTab[ getLength() ][ 1 ] = c.getMileage() + "";
+				carTab[ getLength() ][ 2 ] = c.getOilType() == 'S' ? c.getMileage() + 3000 + " " : c.getMileage() + 5000 + " ";
+				carTab[ getLength() ][ 3 ] = c.getSpecCode();
 				
 			}
 		});
@@ -149,6 +154,15 @@ public class VehicleServiceLogGUI extends JFrame {
 		VehicleServiceLogGUI gui = new VehicleServiceLogGUI();
 		gui.startFrame();
 		gui.addComponents();
+	}
+	
+	public int getLength() {
+		int count = 0;
+		for ( int i = 0; i < cars.length ; i++ ) {
+			if( cars[ i ] != null )
+				count++;
+		}
+		return count;
 	}
 	
 }
