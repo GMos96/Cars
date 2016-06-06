@@ -51,6 +51,7 @@ public class AddCarDialog extends JDialog {
 		addToContainer();
 		
 		setSize( 400, 800 );
+		setLocationRelativeTo( parent );
 		setVisible( true );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		

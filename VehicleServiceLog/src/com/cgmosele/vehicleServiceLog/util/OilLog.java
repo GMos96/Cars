@@ -13,9 +13,9 @@ public class OilLog implements java.io.Serializable {
 	/** XW-YY */
 	private String type;
 	/** date of last oil change */
-	private Date lastChange;
+	private String lastChange;
 	
-	public OilLog( int capacity, String brand, String type, Date lastChange ) {
+	public OilLog( int capacity, String brand, String type, String lastChange ) {
 		this.capacity = capacity;
 		this.brand = brand;
 		this.type = type;
@@ -28,11 +28,11 @@ public class OilLog implements java.io.Serializable {
 		this.type = type;
 	}
 
-	public Date getLastChange() {
+	public String getLastChange() {
 		return lastChange;
 	}
 
-	public void setLastChange(Date lastChange) {
+	public void setLastChange(String lastChange) {
 		this.lastChange = lastChange;
 	}
 
@@ -50,8 +50,8 @@ public class OilLog implements java.io.Serializable {
 	
 	@Override
 	public String toString() {
-		return "Oil Brand: " + brand + "\nOil Type: " + type + "\n Capacity: " + capacity +
-				"Date of Last Oil Change" + lastChange.toString();
+		return "Oil Brand: " + brand + "\nOil Type: " + type + "\nCapacity: " + capacity +
+				"\nDate of Last Oil Change:" + lastChange;
 	}
 	
 	

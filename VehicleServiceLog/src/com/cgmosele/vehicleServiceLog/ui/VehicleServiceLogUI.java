@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -72,7 +73,7 @@ public class VehicleServiceLogUI {
 				break;
 		}
 		
-		c.getOilLog().setLastChange( new Date( Calendar.YEAR + 1900, Calendar.MONTH + 1, Calendar.DATE ) );
+		c.getOilLog().setLastChange( new SimpleDateFormat( "MM/dd/yyyy").format( Calendar.getInstance().getTime() ) );
 	}
 	
 	public Car find( String make, String model ) throws CarNotFoundException {

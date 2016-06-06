@@ -12,6 +12,7 @@ import javax.print.DocFlavor.URL;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -105,12 +106,16 @@ public class VehicleServiceLogGUI extends JFrame {
 			@Override
 			public void actionPerformed( ActionEvent e ) {
 				AddCarDialog ad = new AddCarDialog( new JFrame(), true );
-				Car c = ad.onReturn();
-				cars[ getLength() ] = c;
-				carTab[ getLength() ][ 0 ] = c.getYear() + " " + c.getMake() + " " + c.getModel();
-				carTab[ getLength() ][ 1 ] = c.getMileage() + "";
-				carTab[ getLength() ][ 2 ] = c.getOilType() == 'S' ? c.getMileage() + 3000 + " " : c.getMileage() + 5000 + " ";
-				carTab[ getLength() ][ 3 ] = c.getSpecCode();
+				Car c;
+				if ( ( c = ad.onReturn() ) == null ){
+					return;
+				}
+				int l = getLength();
+				cars[ l ] = c;
+				carTab[ l ][ 0 ] = c.getYear() + " " + c.getMake() + " " + c.getModel();
+				carTab[l ][ 1 ] = c.getMileage() + "";
+				carTab[ l ][ 2 ] = c.getOilType() == 'S' ? c.getMileage() + 3000 + " " : c.getMileage() + 5000 + " ";
+				carTab[ l ][ 3 ] = c.getSpecCode();
 				
 			}
 		});
@@ -119,7 +124,21 @@ public class VehicleServiceLogGUI extends JFrame {
 			
 			@Override
 			public void actionPerformed( ActionEvent e ) {
-				// TODO Auto-generated method stub
+				int i = carTable.getSelectedRow();
+				if ( i == -1 ) {
+					JOptionPane.showMessageDialog( VehicleServiceLogGUI.this, "Please select a vehicle before attempting to change the oil", 
+							"Error: No Vehicle Selected", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			
+				ChangeOilDialog cd = new ChangeOilDialog( VehicleServiceLogGUI.this, true );
+				int mileage = cd.getMileage();
+				System.out.println( i );
+				Car c = cars[ i ];
+				System.out.println( c.toString() );
+				c.setMileage( mileage );
+				carTab[ i ][ 1 ] = c.getMileage() + "";
+				carTab[ i ][ 2 ] = c.getOilType() == 'S' ? c.getMileage() + 3000 + " " : c.getMileage() + 5000 + " ";
 				
 			}
 		});
@@ -128,7 +147,7 @@ public class VehicleServiceLogGUI extends JFrame {
 			
 			@Override
 			public void actionPerformed( ActionEvent e ) {
-				String url = "C:\\VehicleServiceLog\\help.html";
+				String url = "C:\\Vehicle Service Log\\help.html";
 				File htmlFile = new File(url);
 				try {
 					Desktop.getDesktop().browse( htmlFile.toURI() );
