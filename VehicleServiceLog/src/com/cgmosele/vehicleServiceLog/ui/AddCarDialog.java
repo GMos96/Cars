@@ -35,7 +35,7 @@ public class AddCarDialog extends JDialog {
 	private JTextField type = new JTextField( "Type of Oil (Ex. 5W-30)" );
 	private JTextField cap = new JTextField( "Oil Capacity (Quarts)" );
 	
-	private JRadioButton tires = new JRadioButton( "Tire Rotation" );
+	//private JRadioButton tires = new JRadioButton( "Tire Rotation" );
 	
 	private JRadioButton standard = new JRadioButton( "Standard" );
 	private JRadioButton synthetic = new JRadioButton( "Synthetic" );
@@ -50,12 +50,12 @@ public class AddCarDialog extends JDialog {
 		
 		addToContainer();
 		
-		setSize( 400, 800 );
+		setSize( 400, 600 );
 		setLocationRelativeTo( parent );
 		setVisible( true );
+		
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		
-		addToContainer();
 	}
 
 	private void addToContainer() {
@@ -67,7 +67,7 @@ public class AddCarDialog extends JDialog {
 		main.add( brand );
 		main.add( type );
 		main.add( cap );
-		main.add( tires );
+		//main.add( tires );
 		main.add( standard );
 		main.add( synthetic );
 		
@@ -92,10 +92,10 @@ public class AddCarDialog extends JDialog {
 					oilType = 'Y';
 				}
 				
-				String specialCodes = "";
-				if ( tires.isSelected() ) {
-					specialCodes = "R";
-				}
+				String specialCodes = "-";
+				//if ( tires.isSelected() ) {
+					//specialCodes = "R";
+				//}
 				
 				int capacity = Integer.parseInt( cap.getText() );
 				String brand = AddCarDialog.this.brand.getText();

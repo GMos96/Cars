@@ -3,19 +3,24 @@ package com.cgmosele.vehicleServiceLog.ui;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.print.DocFlavor.URL;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.TableView.TableRow;
 
@@ -39,7 +44,17 @@ public class VehicleServiceLogGUI extends JFrame {
 	
 	private String[][] carTab;
 	
+	private final int WIDTH = 800;
+	private final int HEIGHT = 500;
+	
 	public VehicleServiceLogGUI() {
+		
+		try {
+			garage = new VehicleServiceLogUI();
+		} catch ( FileNotFoundException e ) {
+		
+		}
+		
 		
 		String[] col = { "Vehicle", 
 				 "Current Mileage",
@@ -55,6 +70,12 @@ public class VehicleServiceLogGUI extends JFrame {
 		}
 
 		carTable = new JTable( carTab, col );
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		carTable.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
+		
+		carTable.setDefaultEditor(Object.class, null);
 		
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
@@ -72,10 +93,24 @@ public class VehicleServiceLogGUI extends JFrame {
 	
 	private void startFrame() {
 		this.setVisible( true );
-		this.setMinimumSize( new Dimension( 800, 500 ) );
+		this.setMinimumSize( new Dimension( WIDTH, HEIGHT ) );
+		this.setLocationRelativeTo( null );
 		this.setTitle( "Vehicle Service Log" );
+		this.setDefaultCloseOperation( DO_NOTHING_ON_CLOSE );
 		
-		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        if (JOptionPane.showConfirmDialog(VehicleServiceLogGUI.this, 
+		            "Are you sure to close this window?", "Really Closing?", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) 
+		        {
+		        	garage.save();
+		            System.exit(0);
+		        }
+		    }
+		});
 	}
 	
 	private void addComponents() {
@@ -113,7 +148,7 @@ public class VehicleServiceLogGUI extends JFrame {
 				int l = getLength();
 				cars[ l ] = c;
 				carTab[ l ][ 0 ] = c.getYear() + " " + c.getMake() + " " + c.getModel();
-				carTab[l ][ 1 ] = c.getMileage() + "";
+				carTab[ l ][ 1 ] = c.getMileage() + "";
 				carTab[ l ][ 2 ] = c.getOilType() == 'S' ? c.getMileage() + 3000 + " " : c.getMileage() + 5000 + " ";
 				carTab[ l ][ 3 ] = c.getSpecCode();
 				
@@ -125,20 +160,23 @@ public class VehicleServiceLogGUI extends JFrame {
 			@Override
 			public void actionPerformed( ActionEvent e ) {
 				int i = carTable.getSelectedRow();
-				if ( i == -1 ) {
+				if ( i == -1 || carTab[ i ][ 0 ] == "" || carTab[ i ][ 0 ] == "" || cars[ i ] == null ) {
 					JOptionPane.showMessageDialog( VehicleServiceLogGUI.this, "Please select a vehicle before attempting to change the oil", 
 							"Error: No Vehicle Selected", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 			
 				ChangeOilDialog cd = new ChangeOilDialog( VehicleServiceLogGUI.this, true );
-				int mileage = cd.getMileage();
+				ArrayList<Object> obj = cd.getMileage();
+				
 				System.out.println( i );
 				Car c = cars[ i ];
 				System.out.println( c.toString() );
-				c.setMileage( mileage );
+				c.setMileage( ( int ) obj.get(  0) );
+				c.setSpecCode( ( String ) obj.get( 1 ) );
 				carTab[ i ][ 1 ] = c.getMileage() + "";
 				carTab[ i ][ 2 ] = c.getOilType() == 'S' ? c.getMileage() + 3000 + " " : c.getMileage() + 5000 + " ";
+				carTab[ i ][ 3 ] = c.getSpecCode();
 				
 			}
 		});

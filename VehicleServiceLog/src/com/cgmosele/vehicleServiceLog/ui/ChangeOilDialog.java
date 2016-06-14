@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.cgmosele.vehicleServiceLog.util.Car;
@@ -23,7 +25,12 @@ public class ChangeOilDialog extends JDialog {
 	private JButton cancel = new JButton( "Cancel" );
 	
 	private JTextField mileageField = new JTextField( "Mileage" );
-	private int mileage;
+	
+	private JRadioButton tires = new JRadioButton( "Tire Rotation?" );
+	private Integer mileage = null;
+	private String specialCode = "-";
+	
+	ArrayList<Object> info = new ArrayList<>();
 	
 	public ChangeOilDialog( JFrame frame, boolean modal ) {
 		super( frame, modal );
@@ -33,6 +40,8 @@ public class ChangeOilDialog extends JDialog {
 		
 		main.setLayout( new BoxLayout( main, BoxLayout.PAGE_AXIS) );
 		main.add( mileageField );
+		
+		main.add( tires );
 				
 		buttons.add( ok );
 		ok.addActionListener( new ActionListener() {
@@ -40,7 +49,12 @@ public class ChangeOilDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mileage = Integer.parseInt( mileageField.getText() );
+				if ( tires.isSelected() ) {
+					specialCode = "R";
+				}
 				setVisible( false );
+				info.add( mileage );
+				info.add( specialCode );
 			}
 		});
 		
@@ -60,8 +74,8 @@ public class ChangeOilDialog extends JDialog {
 
 	}
 	
-	public int getMileage() {
-		return mileage;
+	public ArrayList<Object> getMileage() {
+		return info;
 	}
 
 }

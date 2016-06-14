@@ -1,6 +1,8 @@
 package com.cgmosele.vehicleServiceLog.ui;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,14 +19,15 @@ public class VehicleServiceLogUI {
 	Car[] cars = new Car[ 10 ];
 	String[][] carTable = new String[ 10 ][ 4 ];
 	
-	public VehicleServiceLogUI() {
+	public VehicleServiceLogUI() throws FileNotFoundException {
 		read();
 	}
 	
 	public void save() {
 	      try {
+	    	 File f = new File( "C:\\Vehicle Service Log\\cars.ser" );
 	         FileOutputStream fileOut =
-	         new FileOutputStream("C:\\VehicleServiceLog\\cars.ser");
+	         new FileOutputStream( f );
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject( cars );
 	         out.close();
@@ -36,7 +39,7 @@ public class VehicleServiceLogUI {
 	
 	private void read() {
 	      try {
-	         FileInputStream fileIn = new FileInputStream( "C:\\VehicleServiceLog\\cars.ser" );
+	         FileInputStream fileIn = new FileInputStream( "C:\\Vehicle Service Log\\cars.ser" );
 	         ObjectInputStream in = new ObjectInputStream( fileIn );
 	         cars = ( Car[] ) in.readObject();
 	         in.close();
@@ -49,12 +52,17 @@ public class VehicleServiceLogUI {
 	         return;
 	      }
 	      
-	      String[] names = new String[ 4 ];
+	      if ( cars[ 0 ] == null ) {
+	    	  return;
+	      }
 	      for ( int i = 0; i < cars.length; i++ ) {
-	    	  names = cars[ i ].toStringArray();
-	    	  for ( int j = 0; i < 4; i++ ) {
-	    		  carTable[ j ][ i ] = names[ i ];
+	    	  if ( cars[ i ] == null ) {
+	    		  return;
 	    	  }
+	    	  carTable[ i ][ 0 ] = cars[ i ].getCarName();
+	    	  carTable[ i ][ 1 ] = new Integer( cars[ i ].getMileage() ).toString();
+	    	  carTable[ i ][ 2 ] = cars[ i ].getNextMileage().toString();
+	    	  carTable[ i ][ 3 ] = cars[ i ].getSpecCode();
 	      }
 	      
 	}

@@ -85,5 +85,12 @@ public class Car implements java.io.Serializable {
 		return carArray;
 	}
 	
+	public String getCarName() {
+		return carArray[ 0 ];
+	}
+	
+	public Integer getNextMileage() {
+		return new Integer( carArray[ 2 ] );
+	}
 		
 }
