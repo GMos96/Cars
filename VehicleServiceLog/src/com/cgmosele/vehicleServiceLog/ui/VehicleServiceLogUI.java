@@ -9,8 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-
 import com.cgmosele.vehicleServiceLog.error.CarNotFoundException;
 import com.cgmosele.vehicleServiceLog.util.Car;
 
@@ -68,7 +66,6 @@ public class VehicleServiceLogUI {
 	}
 	
 	
-	@SuppressWarnings("deprecation")
 	public void changeOil( Car c, int mileage ) {
 		switch( c.getOilType() ) {
 			case ( 'S' ):

@@ -3,7 +3,6 @@ package com.cgmosele.vehicleServiceLog.ui;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,20 +10,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.print.DocFlavor.URL;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.text.TableView.TableRow;
-
 import com.cgmosele.vehicleServiceLog.util.Car;
+import com.cgmosele.vehicleServiceLog.util.OilLog;
 
 public class VehicleServiceLogGUI extends JFrame {
 
@@ -96,13 +92,13 @@ public class VehicleServiceLogGUI extends JFrame {
 		this.setMinimumSize( new Dimension( WIDTH, HEIGHT ) );
 		this.setLocationRelativeTo( null );
 		this.setTitle( "Vehicle Service Log" );
-		this.setDefaultCloseOperation( DO_NOTHING_ON_CLOSE );
+		this.setDefaultCloseOperation( EXIT_ON_CLOSE );
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 		        if (JOptionPane.showConfirmDialog(VehicleServiceLogGUI.this, 
-		            "Are you sure to close this window?", "Really Closing?", 
+		            "Save changes and exit?", "Save", 
 		            JOptionPane.YES_NO_OPTION,
 		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) 
 		        {
@@ -200,7 +196,7 @@ public class VehicleServiceLogGUI extends JFrame {
 			
 			@Override
 			public void actionPerformed( ActionEvent e ) {
-				// TODO Auto-generated method stub
+				OilLogDialog d = new OilLogDialog( VehicleServiceLogGUI.this, true, cars );
 				
 			}
 		});

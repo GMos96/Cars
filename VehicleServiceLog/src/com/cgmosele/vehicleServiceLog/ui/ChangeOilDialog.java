@@ -2,6 +2,7 @@ package com.cgmosele.vehicleServiceLog.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,8 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
-import com.cgmosele.vehicleServiceLog.util.Car;
 
 public class ChangeOilDialog extends JDialog {
 
@@ -43,6 +42,7 @@ public class ChangeOilDialog extends JDialog {
 		
 		main.add( tires );
 				
+		buttons.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
 		buttons.add( ok );
 		ok.addActionListener( new ActionListener() {
 			

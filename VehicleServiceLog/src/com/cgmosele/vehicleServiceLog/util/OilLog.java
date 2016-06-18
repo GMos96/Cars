@@ -1,7 +1,5 @@
 package com.cgmosele.vehicleServiceLog.util;
 
-import java.util.Date;
-
 public class OilLog implements java.io.Serializable {
 
 	/** Default ID */

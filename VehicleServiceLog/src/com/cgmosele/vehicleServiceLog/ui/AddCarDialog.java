@@ -1,7 +1,7 @@
 package com.cgmosele.vehicleServiceLog.ui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -74,6 +74,7 @@ public class AddCarDialog extends JDialog {
 		this.add( main );
 		this.add( buttons, BorderLayout.SOUTH);
 		
+		buttons.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
 		buttons.add( ok );
 		ok.addActionListener( new ActionListener() {
 			
