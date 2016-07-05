@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -163,16 +165,23 @@ public class VehicleServiceLogGUI extends JFrame {
 				}
 			
 				ChangeOilDialog cd = new ChangeOilDialog( VehicleServiceLogGUI.this, true );
+				
 				ArrayList<Object> obj = cd.getMileage();
 				
 				System.out.println( i );
 				Car c = cars[ i ];
+				if ( c == null || obj == null ) {
+					return;
+				}
 				System.out.println( c.toString() );
-				c.setMileage( ( int ) obj.get(  0) );
+				c.setMileage( ( int ) obj.get(  0 ) );
 				c.setSpecCode( ( String ) obj.get( 1 ) );
 				carTab[ i ][ 1 ] = c.getMileage() + "";
 				carTab[ i ][ 2 ] = c.getOilType() == 'S' ? c.getMileage() + 3000 + " " : c.getMileage() + 5000 + " ";
 				carTab[ i ][ 3 ] = c.getSpecCode();
+				carTable.repaint();
+				
+				c.getOilLog().setLastChange( new SimpleDateFormat("MM/dd/yyyy").format(new Date() ) );
 				
 			}
 		});
@@ -197,7 +206,6 @@ public class VehicleServiceLogGUI extends JFrame {
 			@Override
 			public void actionPerformed( ActionEvent e ) {
 				OilLogDialog d = new OilLogDialog( VehicleServiceLogGUI.this, true, cars );
-				
 			}
 		});
 	}
@@ -217,5 +225,4 @@ public class VehicleServiceLogGUI extends JFrame {
 		}
 		return count;
 	}
-	
 }

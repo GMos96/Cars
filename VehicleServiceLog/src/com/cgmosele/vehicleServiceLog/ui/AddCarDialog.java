@@ -27,13 +27,19 @@ public class AddCarDialog extends JDialog {
 	private JButton cancel = new JButton( "Cancel" );
 	
 	private JTextField year = new JTextField( "Year" );
+	private JPanel yearPanel = new JPanel();
 	private JTextField make = new JTextField( "Make" );
+	private JPanel makePanel = new JPanel();
 	private JTextField model = new JTextField( "Model" );
+	private JPanel modelPanel = new JPanel();
 	private JTextField mileage = new JTextField( "Current Mileage" );
-	
+	private JPanel mileagePanel = new JPanel();
 	private JTextField brand = new JTextField( "Brand of Oil" );
+	private JPanel brandPanel = new JPanel();
 	private JTextField type = new JTextField( "Type of Oil (Ex. 5W-30)" );
+	private JPanel typePanel = new JPanel();
 	private JTextField cap = new JTextField( "Oil Capacity (Quarts)" );
+	private JPanel capacityPanel = new JPanel();
 	
 	//private JRadioButton tires = new JRadioButton( "Tire Rotation" );
 	
@@ -42,7 +48,6 @@ public class AddCarDialog extends JDialog {
 	
 	private Car car;
 	
-
 	public AddCarDialog( JFrame parent, boolean modal ) {
 		super( parent, modal );
 		
@@ -120,6 +125,13 @@ public class AddCarDialog extends JDialog {
 			}
 		});
 		
+		make.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				make.setText( "" );
+			}
+		});
 	}
 	
 	public Car onReturn() {

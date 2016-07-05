@@ -1,5 +1,9 @@
 package com.cgmosele.vehicleServiceLog.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class OilLog implements java.io.Serializable {
 
 	/** Default ID */
@@ -24,6 +28,7 @@ public class OilLog implements java.io.Serializable {
 		this.capacity = capacity;
 		this.brand = brand;
 		this.type = type;
+		//this.lastChange = new SimpleDateFormat("MMdd").format(new Date());
 	}
 
 	public String getLastChange() {

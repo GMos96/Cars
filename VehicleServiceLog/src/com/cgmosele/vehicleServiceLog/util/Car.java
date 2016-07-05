@@ -46,7 +46,8 @@ public class Car implements java.io.Serializable {
 	}
 
 	public void setMileage(int mileage) {
-		this.mileage = mileage;
+		this.mileage = mileage;	
+		carArray[ 2 ] = oilType == 'S' ? new Integer( mileage + 3000 ).toString() : new Integer( mileage + 5000 ).toString();
 	}
 
 	public String getSpecCode() {

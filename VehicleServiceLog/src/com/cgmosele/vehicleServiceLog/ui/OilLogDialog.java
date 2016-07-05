@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import com.cgmosele.vehicleServiceLog.util.Car;
+import com.cgmosele.vehicleServiceLog.util.OilLog;
 
 public class OilLogDialog extends JDialog {
 
@@ -29,6 +30,8 @@ public class OilLogDialog extends JDialog {
 	 */
 	public OilLogDialog( JFrame parent, boolean mod, Car[] cars ) {
 		super ( parent, mod );
+		Car[] cars2 = new Car[ 10 ];
+		cars2 = cars;
 		setSize( new Dimension( 800, 500 ) );
 		setLocationRelativeTo( parent );
 		getContentPane().setLayout(new BorderLayout());
@@ -36,6 +39,7 @@ public class OilLogDialog extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		setUpTable();
+		addElements( cars2 );
 		
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
@@ -45,7 +49,7 @@ public class OilLogDialog extends JDialog {
 		String[] col = { "Vehicle", 
 				 "Brand of Oil",
 				 "Type of Oil",
-				 "Oil Capacity",
+				 "Oil Capacity (Quarts)",
 				 "Date of Last Service" };
 		
 		carTable = new JTable( carTab, col );
@@ -69,9 +73,22 @@ public class OilLogDialog extends JDialog {
 		carTable.setRowHeight( 500 / carTable.getRowCount() );
 		
 		scroll = new JScrollPane( carTable );
+		scroll.setPreferredSize( new Dimension( 780, 480 ) );
 		contentPanel.add( scroll );
-		
-		
+		getContentPane().add( contentPanel, BorderLayout.CENTER );	
+	}
+	
+	private void addElements( Car[] cars ) {
+		for ( int i = 0; i < cars.length; i++ ) {
+			if ( cars[ i ] == null ) 
+				break;
+			OilLog o = cars[ i ].getOilLog();
+			carTab[ i ][ 0 ] = cars[ i ].getCarName();
+			carTab[ i ][ 1 ] = o.getBrand();
+			carTab[ i ][ 2 ] = o.getType();
+			carTab[ i ][ 3 ] = new Integer( o.getCapacity() ).toString();
+			carTab[ i ][ 4 ] = o.getLastChange();
+		}
 	}
 
 }
